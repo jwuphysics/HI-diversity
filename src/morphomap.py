@@ -22,7 +22,7 @@ def get_xgass_data(bs=32, sz=224, legacy=False, seed=None):
     df = pd.read_csv(f'{PATH}/data/xGASS_representative_sample.csv')
 
     if legacy:
-        image_stats = []
+        image_stats = [tensor([-0.0443, -0.0643, -0.0726]), tensor([0.9129, 0.8815, 0.8759])]
     else:
         image_stats = [tensor([-0.0169, -0.0105, -0.0004]), tensor([0.9912, 0.9968, 1.0224])]
 
@@ -61,7 +61,7 @@ def get_combined_data(bs=32, sz=224, legacy=False, seed=None):
     df = pd.read_csv(PATH/'data'/'combined.csv', index_col=0)
 
     if legacy:
-        image_stats = []
+        image_stats = [tensor([-0.0443, -0.0643, -0.0726]), tensor([0.9129, 0.8815, 0.8759])]
     else:
         image_stats = [tensor([-0.0169, -0.0105, -0.0004]), tensor([0.9912, 0.9968, 1.0224])]
         
@@ -77,10 +77,15 @@ def get_combined_data(bs=32, sz=224, legacy=False, seed=None):
     bs = bs
     sz = sz
 
-    il = ImageList.from_df(df, path=PATH, folder='images', suffix='.jpg', cols='id')
-
-    src = (il.split_by_rand_pct(0.2)
-             .label_from_df(cols='logfgas',  label_cls=FloatList)
+    src = (
+        ImageList.from_df(
+            df, 
+            path=PATH, 
+            folder='images-xGASS' + ('-legacy' if legacy else ''), 
+            suffix='.jpg', 
+            cols='GASS')
+                .split_by_rand_pct(0.2, seed=seed)
+                .label_from_df(cols='logfgas',  label_cls=FloatList)
     )
 
     data = (src.transform(tfms, size=sz)
