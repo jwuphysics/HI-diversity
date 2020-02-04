@@ -45,12 +45,12 @@ def combine_image_folders(legacy=False):
     
     # run xGASS first
     for xg_id in tqdm(xg.GASS):
-        shutil.copy(xg_imf/f'{xg_id}.jpg', PATH/'images'/f'GASS_{xg_id}.jpg')
+        shutil.copy(xg_imf/f'{xg_id}.jpg', imf/f'GASS_{xg_id}.jpg')
 
     for a40_id in tqdm(a40.AGCNr):
-        shutil.copy(a40_imf/f'{a40_id}.jpg', PATH/'images'/f'AGC_{a40_id}.jpg')
+        shutil.copy(a40_imf/f'{a40_id}.jpg', imf/f'AGC_{a40_id}.jpg')
 
 if __name__ == '__main__':
 #     combine_df()
-#     combine_image_folders()
-    combine_image_folders(legacy=True)
+     combine_image_folders()
+#    combine_image_folders(legacy=True)
