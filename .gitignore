@@ -3,6 +3,7 @@ SOMPY
 data
 images
 images-OC
+images-legacy
 .ipynb_checkpoints
 models
 results
