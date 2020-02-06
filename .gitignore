@@ -1,9 +1,7 @@
 __pycache__
 SOMPY
 data
-images
-images-OC
-images-legacy
+images*
 .ipynb_checkpoints
 models
 results
