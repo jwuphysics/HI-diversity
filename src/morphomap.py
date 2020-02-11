@@ -15,6 +15,7 @@ PATH = Path('..').resolve()
 sys.path.append(f'{PATH}/src')
 from mxresnet import *
 
+__all__ = ['flat_np', 'get_xgass_data', 'get_combined_data', 'custom_cnn_learner']
 
 flat_np = lambda arr: to_np(arr.reshape(-1))
 
