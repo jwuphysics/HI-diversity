@@ -10,7 +10,7 @@ from sklearn.manifold import TSNE
 
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
-PATH = Path('..').resolve()
+PATH = Path(__file__).parent.parent.absolute()
 
 sys.path.append(f'{PATH}/src')
 from mxresnet import *
@@ -78,15 +78,10 @@ def get_combined_data(bs=32, sz=224, legacy=False, seed=None):
     bs = bs
     sz = sz
 
-    src = (
-        ImageList.from_df(
-            df, 
-            path=PATH, 
-            folder='images-xGASS' + ('-legacy' if legacy else ''), 
-            suffix='.jpg', 
-            cols='GASS')
-                .split_by_rand_pct(0.2, seed=seed)
-                .label_from_df(cols='logfgas',  label_cls=FloatList)
+    il = ImageList.from_df(df, path=PATH, folder='images', suffix='.jpg', cols='id')
+
+    src = (il.split_by_rand_pct(0.2, seed=seed)
+             .label_from_df(cols='logfgas',  label_cls=FloatList)
     )
 
     data = (src.transform(tfms, size=sz)
